@@ -1,0 +1,11 @@
+import 'package:flame/components.dart';
+import 'package:wings/configs/game_images.dart';
+
+class Player extends SpriteComponent {
+  Player({super.position}) : super(size: Vector2.all(200), anchor: Anchor.center);
+
+  @override
+  Future<void> onLoad() async {
+    sprite = await Sprite.load(GameImages.player);
+  }
+}
