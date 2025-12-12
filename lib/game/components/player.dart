@@ -1,13 +1,10 @@
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
-import 'package:flame/input.dart';
-import 'package:flame/rendering.dart';
 import 'package:wings/configs/game_images.dart';
 import 'package:wings/game/plane_shooter_game.dart';
 
-class Player extends PositionComponent with HasGameReference<PlaneShooterGame> {
+class Player extends SpriteComponent with HasGameReference<PlaneShooterGame> {
   late JoystickComponent joystick;
-  late Sprite playerSprite;
   static const double speed = 200;
   static const double maxTilt = 0.3;
 
@@ -21,14 +18,8 @@ class Player extends PositionComponent with HasGameReference<PlaneShooterGame> {
   }
 
   @override
-  void render(Canvas canvas) {
-    playerSprite.render(canvas, size: size);
-  }
-
-  @override
   Future<void> onLoad() async {
-    playerSprite = await game.loadSprite(GameImages.player);
-    position = Vector2(50, 100);
+    sprite = await Sprite.load(GameImages.player);
   }
 
   @override

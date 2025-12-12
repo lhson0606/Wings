@@ -1,7 +1,10 @@
 import 'package:flame/components.dart';
+import 'package:wings/configs/game_images.dart';
 import 'package:wings/game/components/ui/rounded_button.dart';
 import 'package:wings/game/plane_shooter_game.dart';
+import 'package:wings/game/components/plane_decoy.dart';
 import 'package:flutter/rendering.dart';
+import 'package:wings/routes/app_routes.dart';
 
 class HomePage extends Component with HasGameReference<PlaneShooterGame> {
   HomePage() {
@@ -18,7 +21,7 @@ class HomePage extends Component with HasGameReference<PlaneShooterGame> {
       ),
       _btnStart = RoundedButton(
         text: 'Start',
-        action: () => {},
+        action: () => {game.router.pushNamed(AppRoutes.gameplay)},
         color: const Color(0xffadde6c),
         borderColor: const Color(0xffedffab),
       ),
@@ -28,11 +31,15 @@ class HomePage extends Component with HasGameReference<PlaneShooterGame> {
       //   color: const Color(0xffdebe6c),
       //   borderColor: const Color(0xfffff4c7),
       // ),
+      _planeDecoy = PlaneDecoy(path: GameImages.player)
+        ..position = Vector2(0, 0)
+        ..size = Vector2(100, 100),
     ]);
   }
 
   late final TextComponent _logo;
   late final RoundedButton _btnStart;
+  late final PlaneDecoy _planeDecoy;
   // late final RoundedButton _button2;
 
   @override
@@ -40,5 +47,6 @@ class HomePage extends Component with HasGameReference<PlaneShooterGame> {
     super.onGameResize(size);
     _logo.position = Vector2(size.x / 2 - 100, 20);
     _btnStart.position = Vector2(size.x / 2, size.y - 60);
+    _planeDecoy.position = Vector2(size.x / 2, size.y / 2);
   }
 }

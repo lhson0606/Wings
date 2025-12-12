@@ -1,12 +1,11 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:wings/game/game_world.dart';
 import 'package:wings/game/plane_shooter_game.dart';
 
 void main() {
   runApp(
     GameWidget(
-      game: PlaneShooterGame(world: GameWorld()),
+      game: PlaneShooterGame(),
     ),
   );
 }
