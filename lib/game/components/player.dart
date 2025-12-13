@@ -4,7 +4,7 @@ import 'package:wings/game/plane_shooter_game.dart';
 
 class Player extends SpriteComponent with HasGameReference<PlaneShooterGame> {
   late JoystickComponent joystick;
-  static const double speed = 200;
+  static const double speed = 400;
   Vector2 _progressVelocity = Vector2.zero();
 
   Player() : super(
@@ -31,14 +31,14 @@ class Player extends SpriteComponent with HasGameReference<PlaneShooterGame> {
 
     if (joystick.direction != JoystickDirection.idle) {
       position += joystick.relativeDelta * speed * dt;
-    }
 
-    // clamp position within current viewport
-    // final viewport = game.camera.viewport;
-    //
-    // position.clamp(
-    //   Vector2(viewport.left + size.x / 2, viewport.top + size.y / 2),
-    //   Vector2(viewport.right - size.x / 2, viewport.bottom - size.y / 2),
-    // );
+      final viewport = game.camera.viewport;
+      Vector2 topLeft = game.camera.globalToLocal(Vector2.zero());
+      Vector2 bottomRight = game.camera.globalToLocal(viewport.size);
+      position.clamp(
+        Vector2(topLeft.x + size.x / 2, topLeft.y + size.y / 2),
+        Vector2(bottomRight.x - size.x / 2, bottomRight.y - size.y / 2),
+      );
+    }
   }
 }

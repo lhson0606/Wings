@@ -35,4 +35,10 @@ class PlaneShooterGame extends FlameGame {
 
     joystick = Joystick();
   }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    camera.viewport = FixedResolutionViewport(resolution: size);
+  }
 }
