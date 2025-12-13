@@ -11,9 +11,11 @@ class GameplayPage extends PositionComponent with HasGameReference<PlaneShooterG
 
   @override
   Future<void> onLoad() async {
-    await game.add(GameWorld());
+    final gameWorld = GameWorld();
+    await game.add(gameWorld);
+    game.camera.world = gameWorld;
     joystick.isVisible = false;
-    add(joystick);
+    await add(joystick);
   }
 
   @override

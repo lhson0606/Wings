@@ -1,4 +1,5 @@
 import 'package:flame/camera.dart';
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:wings/game/components/input/joystick.dart';
 import 'package:wings/game/pages/gameplay_page.dart';
@@ -11,8 +12,11 @@ class PlaneShooterGame extends FlameGame {
   late final RouterComponent router;
   late final Joystick joystick;
 
-  PlaneShooterGame() {
-    camera.viewport = FixedResolutionViewport(resolution: Vector2(width, height));
+  PlaneShooterGame() : super(
+    world: World(),
+    camera: CameraComponent.withFixedResolution(width: width, height: height)
+  ) {
+    camera.viewfinder.anchor = Anchor.center;
   }
 
   @override
