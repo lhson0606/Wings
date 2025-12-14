@@ -1,0 +1,4 @@
+enum EFaction {
+  player,
+  enemy,
+}
