@@ -11,6 +11,7 @@ abstract class BaseProjectile extends SpriteComponent with HasGameReference<Plan
   final String path;
   final EProjectileType type;
   double ttl = 0.0; // time to live in seconds
+  int damage = 1;
 
   BaseProjectile({
     required this.owner,
