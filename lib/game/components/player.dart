@@ -28,6 +28,7 @@ class Player extends Component with HasGameReference<PlaneShooterGame> {
 
   @override
   Future<void> onLoad() async {
+    plane.onPlaneDestroyed = onPlayerDestroyed;
     await add(plane);
   }
 
@@ -69,5 +70,9 @@ class Player extends Component with HasGameReference<PlaneShooterGame> {
       ..position = Vector2(plane.position.x, plane.position.y);
 
     game.world.add(shell);
+  }
+
+  void onPlayerDestroyed() {
+    game.gameOver();
   }
 }

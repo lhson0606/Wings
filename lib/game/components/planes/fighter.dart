@@ -11,6 +11,7 @@ class Fighter extends BasePlane {
 
   @override
   Future<void> onLoad() async {
+    await super.onLoad();
     sprite = await Sprite.load(path);
   }
 }

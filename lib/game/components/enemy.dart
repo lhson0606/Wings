@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:wings/configs/game_images.dart';
 import 'package:wings/enums/e_faction.dart';
+import 'package:wings/enums/e_plane_type.dart';
 import 'package:wings/game/components/base_plane.dart';
 import 'package:wings/game/components/planes/fighter.dart';
 import 'package:wings/game/plane_shooter_game.dart';
@@ -11,9 +12,8 @@ class Enemy extends Component with HasGameReference<PlaneShooterGame> {
   Function()? onEnemyDestroyed;
 
   Enemy() {
-    plane = Fighter(faction: EFaction.enemy, path: GameImages.fighter);
+    plane = Fighter(faction: EFaction.enemy, path: GameImages.fighter)..maxHealth = 99;
     plane.shoot = shoot;
-    plane.onPlaneDestroyed = () => onPlaneDestroyed;
     plane.reload *= 10; // enemies shoot slower
   }
 
@@ -31,6 +31,7 @@ class Enemy extends Component with HasGameReference<PlaneShooterGame> {
   Future<void> onLoad() async {
     // rotate to face downwards
     plane.angle = 3.14;
+    plane.onPlaneDestroyed = onPlaneDestroyed;
     await add(plane);
   }
 

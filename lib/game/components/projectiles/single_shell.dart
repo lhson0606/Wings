@@ -17,6 +17,7 @@ class SingleShell extends BaseProjectile {
 
   @override
   Future<void> onLoad() async {
+    await super.onLoad();
     sprite = await Sprite.load(path);
   }
 

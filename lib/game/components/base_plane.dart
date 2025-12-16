@@ -1,9 +1,10 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:wings/enums/e_faction.dart';
 import 'package:wings/enums/e_plane_type.dart';
 import 'package:wings/game/plane_shooter_game.dart';
 
-abstract class BasePlane extends SpriteComponent with HasGameReference<PlaneShooterGame>{
+abstract class BasePlane extends SpriteComponent with HasGameReference<PlaneShooterGame>, CollisionCallbacks {
   final EFaction faction;
   final EPlaneType type;
   int health = 0;
@@ -16,6 +17,25 @@ abstract class BasePlane extends SpriteComponent with HasGameReference<PlaneShoo
 
   BasePlane({required this.type, required this.faction}) {
     anchor = Anchor.center;
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    add(CircleHitbox());
+  }
+
+  @override
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollisionStart(intersectionPoints, other);
+    
+    // Check if plane collided with another plane from opposing faction
+    if (other is BasePlane && other.faction != faction) {
+      // Take damage equal to opponent's current health
+      takeDamage(other.health);
+      // Opponent also takes damage equal to this plane's health
+      other.takeDamage(health);
+    }
   }
 
   @override

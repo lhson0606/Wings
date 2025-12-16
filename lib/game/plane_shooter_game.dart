@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flame/camera.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:wings/game/components/input/joystick.dart';
@@ -11,7 +12,7 @@ import 'package:wings/managers/enemy_pool_manager.dart';
 import 'package:wings/managers/projectile_pool_manager.dart';
 import 'package:wings/routes/app_routes.dart';
 
-class PlaneShooterGame extends FlameGame {
+class PlaneShooterGame extends FlameGame with HasCollisionDetection {
   static final double width = 360;
   static final double height = 640;
   late final RouterComponent router;
@@ -60,5 +61,10 @@ class PlaneShooterGame extends FlameGame {
     await add(projectilePoolManager);
     await add(enemyPoolManager);
     await add(enemyManager);
+  }
+
+  void gameOver() {
+    world = World();
+    router.pushReplacementNamed(AppRoutes.home);
   }
 }

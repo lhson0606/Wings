@@ -1,9 +1,10 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:wings/game/components/base_plane.dart';
 import 'package:wings/enums/e_projectile_type.dart';
 import 'package:wings/game/plane_shooter_game.dart';
 
-abstract class BaseProjectile extends SpriteComponent with HasGameReference<PlaneShooterGame>{
+abstract class BaseProjectile extends SpriteComponent with HasGameReference<PlaneShooterGame>, CollisionCallbacks {
   static const double default_tts = 5.0;
 
   Vector2 velocity;
@@ -25,6 +26,23 @@ abstract class BaseProjectile extends SpriteComponent with HasGameReference<Plan
     anchor: Anchor.center,
   ) {
     reset();
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    add(CircleHitbox());
+  }
+
+  @override
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollisionStart(intersectionPoints, other);
+    
+    // Check if projectile hit a plane from opposing faction
+    if (other is BasePlane && owner != null && other.faction != owner!.faction) {
+      other.takeDamage(damage);
+      destroyProjectile();
+    }
   }
 
   @override
