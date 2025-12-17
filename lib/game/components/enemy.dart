@@ -12,7 +12,7 @@ class Enemy extends Component with HasGameReference<PlaneShooterGame> {
   Function()? onEnemyDestroyed;
 
   Enemy() {
-    plane = Fighter(faction: EFaction.enemy, path: GameImages.fighter)..maxHealth = 99;
+    plane = Fighter(faction: EFaction.enemy, path: GameImages.fighter)..maxHealth = 2;
     plane.shoot = shoot;
     plane.reload *= 10; // enemies shoot slower
   }

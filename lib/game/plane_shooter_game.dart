@@ -62,9 +62,4 @@ class PlaneShooterGame extends FlameGame with HasCollisionDetection {
     await add(enemyPoolManager);
     await add(enemyManager);
   }
-
-  void gameOver() {
-    world = World();
-    router.pushReplacementNamed(AppRoutes.home);
-  }
 }

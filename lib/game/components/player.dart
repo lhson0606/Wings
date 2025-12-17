@@ -73,6 +73,6 @@ class Player extends Component with HasGameReference<PlaneShooterGame> {
   }
 
   void onPlayerDestroyed() {
-    game.gameOver();
+    // game.gameOver();
   }
 }

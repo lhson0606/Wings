@@ -1,4 +1,6 @@
 import 'package:flame/components.dart';
+import 'package:flame_tiled/flame_tiled.dart';
+import 'package:wings/configs/game_maps.dart';
 import 'package:wings/game/components/game_progress_point.dart';
 import 'package:wings/game/components/player.dart';
 import 'package:wings/game/plane_shooter_game.dart';
@@ -6,12 +8,26 @@ import 'package:wings/game/plane_shooter_game.dart';
 class GameWorld extends World with HasGameReference<PlaneShooterGame>{
   late final Player player;
   late final GameProgressPoint gameProgressPoint;
+  late final tiledMap;
 
   @override
   Future<void> onLoad() async {
+    tiledMap = await TiledComponent.load(
+      GameMaps.default_map,
+      Vector2.all(16),
+    );
+
+    tiledMap.anchor = Anchor.bottomCenter;
+    // resize map to fit map width with our viewport width
+    final scaleFactor = game.canvasSize.x / tiledMap.size.x;
+    tiledMap.scale = Vector2.all(scaleFactor);
+    tiledMap.position = Vector2(0, game.canvasSize.y/2);
+
+    await add(tiledMap);
+
     gameProgressPoint = GameProgressPoint();
     gameProgressPoint.anchor = Anchor.center;
-    gameProgressPoint.position = Vector2(100, 0);
+    gameProgressPoint.position = Vector2(0, 0);
 
     player = Player();
     player.setJoystick(game.joystick);
@@ -23,5 +39,11 @@ class GameWorld extends World with HasGameReference<PlaneShooterGame>{
     await add(player);
 
     game.camera.follow(gameProgressPoint);
+  }
+
+  @override
+  void update(double dt) {
+    // move the tiled map up to create scrolling effect
+    tiledMap.position += gameProgressPoint.progressVelocity * dt *0.95;
   }
 }
