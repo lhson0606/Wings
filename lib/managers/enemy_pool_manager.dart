@@ -26,6 +26,13 @@ class EnemyPoolManger extends Component with HasGameReference<PlaneShooterGame>{
       final enemy = await _createEnemy(EPlaneType.sineCurve);
       _pool[EPlaneType.sineCurve]!.add(enemy);
     }
+    
+    // Initialize pool for chaser
+    _pool[EPlaneType.chaser] = [];
+    for (int i = 0; i < initialPoolSize; i++) {
+      final enemy = await _createEnemy(EPlaneType.chaser);
+      _pool[EPlaneType.chaser]!.add(enemy);
+    }
   }
 
   Future<Enemy> _createEnemy(EPlaneType type) async {
@@ -70,6 +77,10 @@ class EnemyPoolManger extends Component with HasGameReference<PlaneShooterGame>{
         break;
       case EPlaneType.sineCurve:
         enemy = Enemy(planeType: EPlaneType.sineCurve);
+        enemy.onEnemyDestroyed = () => returnEnemy(enemy);
+        break;
+      case EPlaneType.chaser:
+        enemy = Enemy(planeType: EPlaneType.chaser);
         enemy.onEnemyDestroyed = () => returnEnemy(enemy);
         break;
     }
