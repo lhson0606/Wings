@@ -1,10 +1,6 @@
 import 'package:flame/components.dart';
-import 'package:wings/configs/game_images.dart';
-import 'package:wings/enums/e_faction.dart';
 import 'package:wings/enums/e_plane_type.dart';
-import 'package:wings/game/components/base_plane.dart';
 import 'package:wings/game/components/enemy.dart';
-import 'package:wings/game/components/planes/fighter.dart';
 import 'package:wings/game/plane_shooter_game.dart';
 
 class EnemyPoolManger extends Component with HasGameReference<PlaneShooterGame>{
@@ -23,17 +19,18 @@ class EnemyPoolManger extends Component with HasGameReference<PlaneShooterGame>{
       final enemy = await _createEnemy(EPlaneType.fighter);
       _pool[EPlaneType.fighter]!.add(enemy);
     }
+    
+    // Initialize pool for sine curve
+    _pool[EPlaneType.sineCurve] = [];
+    for (int i = 0; i < initialPoolSize; i++) {
+      final enemy = await _createEnemy(EPlaneType.sineCurve);
+      _pool[EPlaneType.sineCurve]!.add(enemy);
+    }
   }
 
   Future<Enemy> _createEnemy(EPlaneType type) async {
-    Enemy enemy;
-    
-    switch (type) {
-      case EPlaneType.fighter:
-        enemy = Enemy();
-        enemy.onEnemyDestroyed = () => returnEnemy(enemy);
-        break;
-    }
+    Enemy enemy = Enemy(planeType: type);
+    enemy.onEnemyDestroyed = () => returnEnemy(enemy);
     
     // Pre-load the enemy
     await enemy.onLoad();
@@ -68,7 +65,11 @@ class EnemyPoolManger extends Component with HasGameReference<PlaneShooterGame>{
     
     switch (type) {
       case EPlaneType.fighter:
-        enemy = Enemy();
+        enemy = Enemy(planeType: EPlaneType.fighter);
+        enemy.onEnemyDestroyed = () => returnEnemy(enemy);
+        break;
+      case EPlaneType.sineCurve:
+        enemy = Enemy(planeType: EPlaneType.sineCurve);
         enemy.onEnemyDestroyed = () => returnEnemy(enemy);
         break;
     }
@@ -87,7 +88,16 @@ class EnemyPoolManger extends Component with HasGameReference<PlaneShooterGame>{
   }
 
   Enemy getRandomEnemy() {
-    // For testing - currently only fighter type exists
+    final types = EPlaneType.values;
+    final randomType = types[game.random.nextInt(types.length)];
+    return get(randomType);
+  }
+
+  Enemy getSineCurveEnemy() {
+    return get(EPlaneType.sineCurve);
+  }
+
+  Enemy getFighterEnemy() {
     return get(EPlaneType.fighter);
   }
 }
