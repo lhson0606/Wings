@@ -25,7 +25,7 @@ class Enemy extends Component with HasGameReference<PlaneShooterGame> {
         plane = SineCurve(faction: EFaction.enemy, path: GameImages.sinCurve)..maxHealth = 2;
         break;
       case EPlaneType.chaser:
-        plane = Chaser(faction: EFaction.enemy, path: GameImages.fighter)..maxHealth = 2;
+        plane = Chaser(faction: EFaction.enemy, path: GameImages.chaser)..maxHealth = 2;
         break;
     }
 
