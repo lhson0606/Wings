@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map_texture.tsx",
+    "activeFile": "map_islands.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -17,11 +17,11 @@
             }
         },
         "map_islands.tmx": {
-            "scale": 1.5,
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 205,
-                "y": 733
+                "x": 159.99999999999994,
+                "y": 235.33333333333337
             }
         },
         "map_texture.tsx": {
@@ -40,8 +40,8 @@
     ],
     "project": "wings_map.tiled-project",
     "recentFiles": [
-        "map_islands.tmx",
         "map_texture.tsx",
+        "map_islands.tmx",
         "default_map.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",

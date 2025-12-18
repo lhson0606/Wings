@@ -30,8 +30,12 @@ class EnemyManager extends Component with HasGameReference<PlaneShooterGame>{
     _spawnTimer += dt;
 
     if (_spawnTimer >= spawnInterval) {
-      _spawnTimer = 0.0;
-      spawnEnemy();
+      _spawnTimer = game.random.nextDouble() * spawnInterval * 0.5;
+      // random enemy count to spawn between 1 to 3
+      int enemyCount = 1 + game.random.nextInt(getMaxEnemiesToSpawn());
+      for (int i = 0; i < enemyCount; i++) {
+        spawnEnemy();
+      }
     }
   }
 
@@ -50,5 +54,10 @@ class EnemyManager extends Component with HasGameReference<PlaneShooterGame>{
     Enemy enemy = game.enemyPoolManager.getRandomEnemy();
     enemy.plane.position = getSpawnPosition();
     game.world.add(enemy);
+  }
+
+  int getMaxEnemiesToSpawn() {
+    double gameTime = game.getGameWorld().elapsedTime;
+    return 1 + (gameTime ~/ 20);
   }
 }

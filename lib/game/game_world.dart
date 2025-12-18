@@ -9,9 +9,12 @@ class GameWorld extends World with HasGameReference<PlaneShooterGame>{
   late final Player player;
   late final GameProgressPoint gameProgressPoint;
   late final tiledMap;
+  double elapsedTime = 0.0;
 
   @override
   Future<void> onLoad() async {
+    elapsedTime = 0.0;
+
     tiledMap = await TiledComponent.load(
       GameMaps.default_map,
       Vector2.all(16),
@@ -39,11 +42,14 @@ class GameWorld extends World with HasGameReference<PlaneShooterGame>{
     await add(player);
 
     game.camera.follow(gameProgressPoint);
+
+    game.soundManager.playBackgroundMusic();
   }
 
   @override
   void update(double dt) {
     // move the tiled map up to create scrolling effect
     tiledMap.position += gameProgressPoint.progressVelocity * dt *0.95;
+    elapsedTime += dt;
   }
 }

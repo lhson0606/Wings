@@ -68,6 +68,8 @@ flutter:
   assets:
     - assets/
     - assets/audio/
+    - assets/audio/battle/
+    - assets/audio/ui/
     - assets/tiles/
     - assets/images/
     - assets/images/projectiles/

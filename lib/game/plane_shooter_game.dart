@@ -5,11 +5,14 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:wings/game/components/input/joystick.dart';
+import 'package:wings/game/game_world.dart';
 import 'package:wings/game/pages/gameplay_page.dart';
 import 'package:wings/game/pages/home_page.dart';
 import 'package:wings/managers/enemy_manager.dart';
 import 'package:wings/managers/enemy_pool_manager.dart';
 import 'package:wings/managers/projectile_pool_manager.dart';
+import 'package:wings/managers/sound_manager.dart';
+import 'package:wings/managers/sound_pool_manager.dart';
 import 'package:wings/routes/app_routes.dart';
 
 class PlaneShooterGame extends FlameGame with HasCollisionDetection {
@@ -20,8 +23,10 @@ class PlaneShooterGame extends FlameGame with HasCollisionDetection {
 
   final ProjectilePoolManager projectilePoolManager = ProjectilePoolManager();
   final EnemyPoolManger enemyPoolManager = EnemyPoolManger();
+  final SoundPoolManager soundPoolManager = SoundPoolManager();
 
   final EnemyManager enemyManager = EnemyManager();
+  final SoundManager soundManager = SoundManager();
 
   PlaneShooterGame() : super(
     world: World(),
@@ -61,5 +66,11 @@ class PlaneShooterGame extends FlameGame with HasCollisionDetection {
     await add(projectilePoolManager);
     await add(enemyPoolManager);
     await add(enemyManager);
+    await add(soundPoolManager);
+    await add(soundManager);
+  }
+
+  GameWorld getGameWorld() {
+    return world as GameWorld;
   }
 }

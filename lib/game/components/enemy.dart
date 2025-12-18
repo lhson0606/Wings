@@ -31,6 +31,9 @@ class Enemy extends Component with HasGameReference<PlaneShooterGame> {
 
     plane.shoot = shoot;
     plane.reload *= 10; // enemies shoot slower
+    plane.onPlaneShootDown = () {
+      game.soundManager.playExplosionSound();
+    };
   }
 
   void onPlaneDestroyed() {

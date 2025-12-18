@@ -16,6 +16,7 @@ abstract class BasePlane extends SpriteComponent with HasGameReference<PlaneShoo
   double _reloadTimer = 0.0;
   Function()? shoot;
   Function()? onPlaneDestroyed;
+  Function()? onPlaneShootDown;
   late SpriteAnimation destroyAnimation;
   bool isDestroying = false;
   Sprite? _originalSprite;
@@ -102,6 +103,9 @@ abstract class BasePlane extends SpriteComponent with HasGameReference<PlaneShoo
     health -= damage;
     if (health <= 0 && !isDestroying) {
       playDestroyAnimation();
+      if(null != onPlaneShootDown) {
+        onPlaneShootDown!();
+      }
     }
   }
 

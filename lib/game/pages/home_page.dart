@@ -38,7 +38,10 @@ class HomePage extends Component with HasGameReference<PlaneShooterGame> {
       )..anchor = Anchor.center,
       _btnStart = RoundedButton(
         text: 'Start',
-        action: () => {game.router.pushReplacementNamed(AppRoutes.gameplay)},
+        action: () {
+          game.soundManager.playButtonClickSound();
+          game.router.pushReplacementNamed(AppRoutes.gameplay);
+        },
         color: const Color(0xFFFFD700),
         borderColor: const Color(0xFFFFEB3B),
       )..anchor = Anchor.center,
