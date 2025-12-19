@@ -4,6 +4,8 @@ import 'package:flame/camera.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:wings/configs/plane_stats.dart';
+import 'package:wings/configs/projectile_stats.dart';
 import 'package:wings/game/components/input/joystick.dart';
 import 'package:wings/game/game_world.dart';
 import 'package:wings/game/pages/gameplay_page.dart';
@@ -39,8 +41,9 @@ class PlaneShooterGame extends FlameGame with HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
+    loadStats();
     await addManagers();
-    
+
     add(
         router = RouterComponent(
           initialRoute: AppRoutes.home,
@@ -72,5 +75,10 @@ class PlaneShooterGame extends FlameGame with HasCollisionDetection {
 
   GameWorld getGameWorld() {
     return world as GameWorld;
+  }
+
+  void loadStats() {
+    PlaneStats.gI();
+    ProjectileStats.gI();
   }
 }

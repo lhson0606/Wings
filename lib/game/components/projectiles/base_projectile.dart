@@ -1,5 +1,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:wings/configs/projectile_stats.dart';
 import 'package:wings/game/components/base_plane.dart';
 import 'package:wings/enums/e_projectile_type.dart';
 import 'package:wings/game/plane_shooter_game.dart';
@@ -25,6 +26,8 @@ abstract class BaseProjectile extends SpriteComponent with HasGameReference<Plan
     size: size ?? Vector2(16, 16),
     anchor: Anchor.center,
   ) {
+    damage = ProjectileStats.gI().getStats(type).damage;
+    ttl = ProjectileStats.gI().getStats(type).ttl;
     reset();
   }
 
@@ -37,11 +40,18 @@ abstract class BaseProjectile extends SpriteComponent with HasGameReference<Plan
   @override
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollisionStart(intersectionPoints, other);
-    
-    // Check if projectile hit a plane from opposing faction
+
+    if(other == owner) {
+      return;
+    }
+
     if (other is BasePlane && owner != null && other.faction != owner!.faction) {
       other.takeDamage(damage);
       destroyProjectile();
+    } else if(other is BaseProjectile) {
+      // destroy both projectiles on collision
+      destroyProjectile();
+      other.destroyProjectile();
     }
   }
 
@@ -51,7 +61,11 @@ abstract class BaseProjectile extends SpriteComponent with HasGameReference<Plan
 
     if (ttl <= 0) {
       destroyProjectile();
+      return;
     }
+    
+    // Update position here to ensure collision detection works properly
+    position += velocity * dt;
   }
 
   void destroyProjectile() {

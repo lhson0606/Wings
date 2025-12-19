@@ -12,7 +12,7 @@ class Player extends Component with HasGameReference<PlaneShooterGame> {
   Vector2 _progressVelocity = Vector2.zero();
 
   Player() {
-    plane = Fighter(faction: EFaction.player, path: GameImages.fighter)..path = GameImages.player;
+    plane = Fighter(faction: EFaction.player)..path = GameImages.player;
     plane.shoot = shoot;
   }
 

@@ -1,5 +1,8 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
+import 'package:flame/extensions.dart';
+import 'package:wings/configs/plane_stats.dart';
 import 'package:wings/enums/e_faction.dart';
 import 'package:wings/enums/e_plane_type.dart';
 import 'package:wings/game/plane_shooter_game.dart';
@@ -21,14 +24,28 @@ abstract class BasePlane extends SpriteComponent with HasGameReference<PlaneShoo
   bool isDestroying = false;
   Sprite? _originalSprite;
   SpriteAnimationComponent? _destroyAnimationComponent;
+  static const Color reddish = Color(0xFFFF0000);
+  static const Color normalColor = Color(0xFFFFFFFF);
 
-  BasePlane({required this.type, required this.faction}) {
+  Effect takeDamageFx = SequenceEffect([
+    ColorEffect(reddish, EffectController(duration: 0.5), opacityTo: 0.6),
+    ColorEffect(normalColor, EffectController(duration: 0.5), opacityTo: 1.0),
+  ]);
+
+  BasePlane({required this.type, required this.faction, this.maxHealth = 1}) {
     anchor = Anchor.center;
+    maxHealth = PlaneStats.gI().getStats(type).maxHealth;
+    reset();
   }
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+
+    await add(takeDamageFx);
+    // hide take damage effect initially
+    takeDamageFx.pause();
+
     add(CircleHitbox());
     
     // Load destroy animation from individual frames
@@ -134,5 +151,10 @@ abstract class BasePlane extends SpriteComponent with HasGameReference<PlaneShoo
         onPlaneDestroyed!();
       }
     });
+  }
+
+  void playTakeDamageEffect() {
+    takeDamageFx.reset();
+    takeDamageFx.resume();
   }
 }

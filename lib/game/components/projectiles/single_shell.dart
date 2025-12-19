@@ -24,7 +24,6 @@ class SingleShell extends BaseProjectile {
   @override
   void update(double dt) {
     super.update(dt);
-    position += velocity * dt;
   }
   
   @override

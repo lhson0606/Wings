@@ -19,13 +19,13 @@ class Enemy extends Component with HasGameReference<PlaneShooterGame> {
   Enemy({EPlaneType planeType = EPlaneType.fighter}) {
     switch (planeType) {
       case EPlaneType.fighter:
-        plane = Fighter(faction: EFaction.enemy, path: GameImages.fighter)..maxHealth = 2;
+        plane = Fighter(faction: EFaction.enemy);
         break;
       case EPlaneType.sineCurve:
-        plane = SineCurve(faction: EFaction.enemy, path: GameImages.sinCurve)..maxHealth = 2;
+        plane = SineCurve(faction: EFaction.enemy);
         break;
       case EPlaneType.chaser:
-        plane = Chaser(faction: EFaction.enemy, path: GameImages.chaser)..maxHealth = 2;
+        plane = Chaser(faction: EFaction.enemy);
         break;
     }
 
