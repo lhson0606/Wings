@@ -5,6 +5,7 @@ import 'package:wings/game/components/base_plane.dart';
 import 'package:wings/game/components/planes/fighter.dart';
 import 'package:wings/game/plane_shooter_game.dart';
 import 'package:wings/enums/e_projectile_type.dart';
+import 'package:wings/routes/app_routes.dart';
 
 class Player extends Component with HasGameReference<PlaneShooterGame> {
   late JoystickComponent joystick;
@@ -73,6 +74,9 @@ class Player extends Component with HasGameReference<PlaneShooterGame> {
   }
 
   void onPlayerDestroyed() {
-    // game.gameOver();
+    // Navigate to game over screen after a short delay
+    Future.delayed(const Duration(milliseconds: 500), () {
+      game.router.pushReplacementNamed(AppRoutes.gameOver);
+    });
   }
 }

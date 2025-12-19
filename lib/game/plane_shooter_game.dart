@@ -9,6 +9,7 @@ import 'package:wings/configs/projectile_stats.dart';
 import 'package:wings/game/components/input/joystick.dart';
 import 'package:wings/game/game_world.dart';
 import 'package:wings/game/pages/gameplay_page.dart';
+import 'package:wings/game/pages/game_over_page.dart';
 import 'package:wings/game/pages/home_page.dart';
 import 'package:wings/managers/enemy_manager.dart';
 import 'package:wings/managers/enemy_pool_manager.dart';
@@ -52,6 +53,7 @@ class PlaneShooterGame extends FlameGame with HasCollisionDetection {
             AppRoutes.gameplay: Route(() => GameplayPage(
               resolution: canvasSize,
             )),
+            AppRoutes.gameOver: Route(() => GameOverPage()),
           },
         )
     );
